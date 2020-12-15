@@ -78,7 +78,7 @@ class LocalTrialJobDetail implements TrialJobDetail {
 /**
  * Local training service config
  */
-class LocalConfig {
+export class LocalConfig {
     public maxTrialNumPerGpu?: number;
     public gpuIndices?: string;
     public useActiveGpu?: boolean;
@@ -435,8 +435,8 @@ class LocalTrainingService implements TrainingService {
     }
 
     private checkSpecifiedGpuIndices(): void {
-        const gpuCount: number = this.gpuScheduler.getSystemGpuCount();
-        if (this.designatedGpuIndices !== undefined) {
+        const gpuCount: number | undefined = this.gpuScheduler.getSystemGpuCount();
+        if (this.designatedGpuIndices !== undefined && gpuCount !== undefined) {
             for (const index of this.designatedGpuIndices) {
                 if (index >= gpuCount) {
                     throw new Error(`Specified GPU index not found: ${index}`);
